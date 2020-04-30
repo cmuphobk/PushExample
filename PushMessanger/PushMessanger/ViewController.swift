@@ -57,7 +57,7 @@ final class ViewController: UIViewController {
     func showCredentials(deviceTokenString: String?, fcmTokenString: String?) {
         let alert = UIAlertController(title: "Push Credentials", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField) in
-            textField.text = "DeviceTokenString: \(deviceTokenString ?? "none"), FcmTokenString: \(fcmTokenString ?? "none")"
+            textField.text = "\(deviceTokenString ?? "none")"
         }
         let action = UIAlertAction(title: "OK", style: .default) { [weak alert] (_) in
             alert?.dismiss(animated: true, completion: nil)
