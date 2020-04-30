@@ -36,6 +36,10 @@ struct PayloadParser {
             titleStr = titleFromUserInfo
         } else if let alertFromUserInfo = aps["alert"] as? String {
             titleStr = alertFromUserInfo
+        } else if let data = userInfo["data"] as? [AnyHashable: Any], let alertFromUserInfo = data["alert"] as? String {
+            titleStr = alertFromUserInfo
+        } else if let data = userInfo["data"] as? [AnyHashable: Any], let alertFromUserInfo = data["title"] as? String {
+            titleStr = alertFromUserInfo
         }
         guard let title = titleStr else { return }
         print("\(#function), title:\(title) [PushManager]")

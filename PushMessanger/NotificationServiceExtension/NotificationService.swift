@@ -21,6 +21,7 @@ final class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent = bestAttemptContent {
             print("\(#function), content:\(bestAttemptContent) [PushManager]")
             let parser = PayloadParser(content: bestAttemptContent, countMessagesInStorage: messageService.obtainModels().count)
+            messageService.storeModel(MessageModel(text: bestAttemptContent.title, timeInterval: Date().timeIntervalSince1970))
             bestAttemptContent.title = parser.payload.title
             contentHandler(bestAttemptContent)
         }

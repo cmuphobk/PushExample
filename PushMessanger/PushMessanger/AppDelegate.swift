@@ -136,8 +136,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         defer {
             viewController.reloadData()
         }
-        let parser = PayloadParser(content: notification.request.content, countMessagesInStorage: messageService.obtainModels().count)
-        messageService.storeModel(MessageModel(text: parser.payload.title, timeInterval: Date().timeIntervalSince1970))
         completionHandler([.alert, .sound, .badge])
     }
     func userNotificationCenter(
