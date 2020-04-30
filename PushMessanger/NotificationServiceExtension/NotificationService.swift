@@ -20,7 +20,7 @@ final class NotificationService: UNNotificationServiceExtension {
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         if let bestAttemptContent = bestAttemptContent {
             print("\(#function), content:\(bestAttemptContent) [PushManager]")
-            bestAttemptContent.title = "У вас \(messageService.obtainModels().count) новых сообщений [modified]"
+            bestAttemptContent.title = "У вас \(messageService.obtainModels().count + 1) новых сообщений [modified]"
             messageService.storeModel(MessageModel(text: bestAttemptContent.title, timeInterval: Date().timeIntervalSince1970))
             contentHandler(bestAttemptContent)
         }
