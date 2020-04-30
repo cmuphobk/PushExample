@@ -49,6 +49,11 @@ final class ViewController: UIViewController {
         ])
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadData()
+    }
+    
     func showCredentials(deviceTokenString: String?, fcmTokenString: String?) {
         let alert = UIAlertController(title: "Push Credentials", message: nil, preferredStyle: .alert)
         alert.addTextField { (textField) in

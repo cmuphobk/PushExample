@@ -29,6 +29,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             viewController.showCredentials(deviceTokenString: deviceTokenString, fcmTokenString: fcmTokenString)
         }
     }
+    
+    private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier = .invalid
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -51,6 +53,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        viewController.reloadData()
+    }
 
 }
 
@@ -66,11 +72,40 @@ extension AppDelegate {
         print("\(#function), error:\(error.localizedDescription) [PushManager]")
     }
     
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        defer {
-            viewController.reloadData()
-        }
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         print("\(#function), userInfo:\(userInfo) [PushManager]")
+        handleSilentNotification(application, userInfo: userInfo)
+        completionHandler(.newData)
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        print("\(#function), userInfo:\(userInfo) [PushManager]")
+        handleSilentNotification(application, userInfo: userInfo)
+    }
+    
+    private func handleSilentNotification(_ application: UIApplication, userInfo: [AnyHashable: Any]) {
+        if application.applicationState != .active {
+            if backgroundTaskIdentifier == .invalid {
+                backgroundTaskIdentifier = application.beginBackgroundTask(expirationHandler: { [weak self, weak application] in
+                    guard let backgroundTaskIdentifier = self?.backgroundTaskIdentifier else { return }
+                    application?.endBackgroundTask(backgroundTaskIdentifier)
+                    self?.backgroundTaskIdentifier = .invalid;
+                })
+            }
+        }
+        
+        defer {
+            if application.applicationState == .active {
+                DispatchQueue.main.async { [weak self] in
+                    self?.viewController.reloadData()
+                }
+            }
+        }
+        
         guard let aps = userInfo["aps"] as? [AnyHashable : Any] else { return }
         
         guard let contentAvailableStr = aps["content-available"] as? String else { return }
@@ -85,9 +120,15 @@ extension AppDelegate {
         print("\(#function), title:\(title) [PushManager]")
         
         messageService.storeModel(MessageModel(text: title, timeInterval: Date().timeIntervalSince1970))
+        
+        if application.applicationState != .active {
+            if backgroundTaskIdentifier != .invalid {
+                application.endBackgroundTask(backgroundTaskIdentifier)
+                backgroundTaskIdentifier = .invalid;
+            }
+        }
         // FIXME: - maybe trigger local notification
     }
-    
 }
 
 extension AppDelegate: MessagingDelegate {
