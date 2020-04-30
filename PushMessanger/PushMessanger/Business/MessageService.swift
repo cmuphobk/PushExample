@@ -27,10 +27,7 @@ final class MessageService: MessageServiceProtocol {
     }
     
     func storeModel(_ model: MessageModel) {
-        var models = obtainModels()
-        models.append(model)
-        print("\(#function), models: \(models)")
-        repository.update(models: models)
+        repository.create(model: model)
     }
     
 }

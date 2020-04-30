@@ -80,6 +80,7 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell(style: .default, reuseIdentifier: Constants.cellReuseIdentifier)
         }
         cell.textLabel?.text = "Message \(indexPath.row): \(messageService.obtainModels()[indexPath.row])"
+        cell.textLabel?.numberOfLines = 0
         return cell
     }
     

@@ -17,18 +17,24 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private let messageService: MessageServiceProtocol = MessageService()
     
-    private let group = DispatchGroup()
-    private var deviceTokenString: String?
-    private var fcmTokenString: String?
+    private var deviceTokenString: String? {
+        didSet {
+            guard let deviceTokenString = deviceTokenString, let fcmTokenString = fcmTokenString else { return }
+            viewController.showCredentials(deviceTokenString: deviceTokenString, fcmTokenString: fcmTokenString)
+        }
+    }
+    private var fcmTokenString: String? {
+        didSet {
+            guard let deviceTokenString = deviceTokenString, let fcmTokenString = fcmTokenString else { return }
+            viewController.showCredentials(deviceTokenString: deviceTokenString, fcmTokenString: fcmTokenString)
+        }
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        group.enter()
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
         
-        
-        group.enter()
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
@@ -43,10 +49,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
         
-        group.notify(queue: .main) { [weak self] in
-            self?.viewController.showCredentials(deviceTokenString: self?.deviceTokenString, fcmTokenString: self?.fcmTokenString)
-        }
-        
         return true
     }
 
@@ -58,7 +60,6 @@ extension AppDelegate {
         deviceTokenString = deviceToken.reduce("") { $0 + String(format: "%02X", $1) }
         print("\(#function), APNs device token: \(deviceTokenString ?? "none") [PushManager]")
         Messaging.messaging().apnsToken = deviceToken
-        group.leave()
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -93,7 +94,6 @@ extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
         fcmTokenString = fcmToken
         print("\(#function), firebase registration token: \(fcmToken) [PushManager]")
-        group.leave()
     }
 }
 
