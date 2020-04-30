@@ -76,7 +76,7 @@ extension CRUDKeyValueRepository {
             let result = try JSONDecoder().decode([Int: Entity].self, from: data)
             return result
         } catch {
-            print(error.localizedDescription)
+            print("\(#function), error: \(error.localizedDescription) [PushManager]")
             return [:]
         }
     }
@@ -86,7 +86,7 @@ extension CRUDKeyValueRepository {
             let data = try JSONEncoder().encode(models)
             storage.setValue(data, forKey: key)
         } catch {
-            print(error.localizedDescription)
+            print("\(#function), error: \(error.localizedDescription) [PushManager]")
         }
         
     }

@@ -18,7 +18,7 @@ final class MessageService: MessageServiceProtocol {
     private let repository: CRUDKeyValueRepository<MessageModel>
     
     init() {
-        storage = .standard
+        storage = UserDefaults(suiteName: "group.com.ksmirnov.PushMessangerNSE") ?? UserDefaults.standard
         repository = CRUDKeyValueRepository<MessageModel>(key: Constants.messagesKey, storage: storage)
     }
     
@@ -29,7 +29,8 @@ final class MessageService: MessageServiceProtocol {
     func storeModel(_ model: MessageModel) {
         var models = obtainModels()
         models.append(model)
-        storage.setValue(models, forKey: Constants.messagesKey)
+        print("\(#function), models: \(models)")
+        repository.update(models: models)
     }
     
 }

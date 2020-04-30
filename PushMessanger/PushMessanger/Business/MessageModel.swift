@@ -10,12 +10,12 @@ import Foundation
 
 struct MessageModel: Codable, Hashable {
     let text: String
-    let date: Date
+    let timeInterval: TimeInterval
 }
 
 extension MessageModel: Comparable {
     static func < (lhs: MessageModel, rhs: MessageModel) -> Bool {
-        return lhs.date < rhs.date
+        return lhs.timeInterval < rhs.timeInterval
     }
 }
 
@@ -23,6 +23,6 @@ extension MessageModel: CustomStringConvertible {
     var description: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM, hh:mm"
-        return "message: \(text), date: \(dateFormatter.string(from: date))"
+        return "message: \(text), date: \(dateFormatter.string(from: Date(timeIntervalSince1970: timeInterval)))"
     }
 }

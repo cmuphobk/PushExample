@@ -15,6 +15,7 @@ final class ViewController: UIViewController {
     }
     
     // MARK: - Stored state
+    private weak var tableView: UITableView!
     
     private let messageService: MessageServiceProtocol = MessageService()
     
@@ -36,6 +37,7 @@ final class ViewController: UIViewController {
             tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellReuseIdentifier)
             return tableView
         }()
+        self.tableView = tableView
         self.view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -45,6 +47,22 @@ final class ViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.view.layoutMarginsGuide.trailingAnchor)
         ])
+    }
+    
+    func showCredentials(deviceTokenString: String?, fcmTokenString: String?) {
+        let alert = UIAlertController(title: "Push Credentials", message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.text = "DeviceTokenString: \(deviceTokenString ?? "none"), FcmTokenString: \(fcmTokenString ?? "none")"
+        }
+        let action = UIAlertAction(title: "OK", style: .default) { [weak alert] (_) in
+            alert?.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func reloadData() {
+        tableView.reloadData()
     }
 
 }

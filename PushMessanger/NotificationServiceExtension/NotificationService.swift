@@ -19,10 +19,9 @@ final class NotificationService: UNNotificationServiceExtension {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         if let bestAttemptContent = bestAttemptContent {
-            // FIXME: - fabric
-            messageService.storeModel(MessageModel(text: bestAttemptContent.title, date: .init()))
-            // FIXME: - handle remote notification
+            print("\(#function), content:\(bestAttemptContent) [PushManager]")
             bestAttemptContent.title = "У вас \(messageService.obtainModels().count) новых сообщений [modified]"
+            messageService.storeModel(MessageModel(text: bestAttemptContent.title, timeInterval: Date().timeIntervalSince1970))
             contentHandler(bestAttemptContent)
         }
     }

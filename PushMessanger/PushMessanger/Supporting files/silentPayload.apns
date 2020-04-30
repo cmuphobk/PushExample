@@ -1,7 +1,8 @@
 {
     "Simulator Target Bundle": "com.ksmirnov.PushMessanger",
     "aps" : {
-        "alert" : "Новое уведомление",
+        "title": "Новое уведомление",
+        "body": "Новое сообщение",
         "content-available" : 1
     }
 }
