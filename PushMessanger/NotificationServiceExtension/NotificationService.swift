@@ -9,19 +9,19 @@
 import UserNotifications
 
 final class NotificationService: UNNotificationServiceExtension {
+    
+    private let messageService: MessageServiceProtocol = MessageService()
 
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
-    
-    private let messageService: MessageServiceProtocol = MessageService()
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         if let bestAttemptContent = bestAttemptContent {
             print("\(#function), content:\(bestAttemptContent) [PushManager]")
-            bestAttemptContent.title = "У вас \(messageService.obtainModels().count + 1) новых сообщений [modified]"
-            messageService.storeModel(MessageModel(text: bestAttemptContent.title, timeInterval: Date().timeIntervalSince1970))
+            let parser = PayloadParser(content: bestAttemptContent, countMessagesInStorage: messageService.obtainModels().count)
+            bestAttemptContent.title = parser.payload.title
             contentHandler(bestAttemptContent)
         }
     }

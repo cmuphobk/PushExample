@@ -15,6 +15,10 @@
 		8226ABC82459B23100D4D76C /* RepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825A49A82459A47500AA74A2 /* RepositoryProtocol.swift */; };
 		8226ABC92459B23300D4D76C /* CRUDKeyValueRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825A49A42459A40500AA74A2 /* CRUDKeyValueRepository.swift */; };
 		8226ABCB245A055D00D4D76C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8226ABCA245A055D00D4D76C /* GoogleService-Info.plist */; };
+		8229D3CF245B004F007F42CA /* PayloadParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8229D3CE245B004F007F42CA /* PayloadParser.swift */; };
+		8229D3D0245B046B007F42CA /* PayloadParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8229D3CE245B004F007F42CA /* PayloadParser.swift */; };
+		8229D3D2245B047E007F42CA /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8229D3D1245B047E007F42CA /* Payload.swift */; };
+		8229D3D3245B04A7007F42CA /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8229D3D1245B047E007F42CA /* Payload.swift */; };
 		825A497C24599EBA00AA74A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825A497B24599EBA00AA74A2 /* AppDelegate.swift */; };
 		825A498024599EBA00AA74A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825A497F24599EBA00AA74A2 /* ViewController.swift */; };
 		825A498524599EBD00AA74A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 825A498424599EBD00AA74A2 /* Assets.xcassets */; };
@@ -75,6 +79,8 @@
 		8226ABCA245A055D00D4D76C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8226ABCC245AACE300D4D76C /* PushMessangerDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushMessangerDebug.entitlements; sourceTree = "<group>"; };
 		8226ABCD245AAF3800D4D76C /* NotificationServiceExtensionDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtensionDebug.entitlements; sourceTree = "<group>"; };
+		8229D3CE245B004F007F42CA /* PayloadParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayloadParser.swift; sourceTree = "<group>"; };
+		8229D3D1245B047E007F42CA /* Payload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payload.swift; sourceTree = "<group>"; };
 		825A497824599EBA00AA74A2 /* PushMessanger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PushMessanger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825A497B24599EBA00AA74A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		825A497F24599EBA00AA74A2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +227,8 @@
 				825A49AB2459A5D600AA74A2 /* MessageModel.swift */,
 				825A49AD2459A6C600AA74A2 /* MessageServiceProtocol.swift */,
 				825A499D2459A1C300AA74A2 /* MessageService.swift */,
+				8229D3D1245B047E007F42CA /* Payload.swift */,
+				8229D3CE245B004F007F42CA /* PayloadParser.swift */,
 			);
 			path = Business;
 			sourceTree = "<group>";
@@ -478,6 +486,8 @@
 				825A49A72459A41800AA74A2 /* UserDefaults+KeyValueStorage.swift in Sources */,
 				825A49A32459A38300AA74A2 /* KeyValueStorage.swift in Sources */,
 				825A49A92459A47500AA74A2 /* RepositoryProtocol.swift in Sources */,
+				8229D3D2245B047E007F42CA /* Payload.swift in Sources */,
+				8229D3CF245B004F007F42CA /* PayloadParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,10 +506,12 @@
 				8226ABC42459B22600D4D76C /* MessageServiceProtocol.swift in Sources */,
 				8226ABC62459B22D00D4D76C /* KeyValueStorage.swift in Sources */,
 				825A49B62459AA0D00AA74A2 /* NotificationService.swift in Sources */,
+				8229D3D0245B046B007F42CA /* PayloadParser.swift in Sources */,
 				8226ABC92459B23300D4D76C /* CRUDKeyValueRepository.swift in Sources */,
 				8226ABC32459B22300D4D76C /* MessageService.swift in Sources */,
 				8226ABC72459B22F00D4D76C /* UserDefaults+KeyValueStorage.swift in Sources */,
 				8226ABC52459B22900D4D76C /* MessageModel.swift in Sources */,
+				8229D3D3245B04A7007F42CA /* Payload.swift in Sources */,
 				8226ABC82459B23100D4D76C /* RepositoryProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

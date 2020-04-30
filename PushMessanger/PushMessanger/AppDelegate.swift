@@ -12,11 +12,11 @@ import Firebase
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var window: UIWindow?
-    private let viewController = ViewController()
-    
     private let messageService: MessageServiceProtocol = MessageService()
     
+    var window: UIWindow?
+    private let viewController = ViewController()
+        
     private var deviceTokenString: String? {
         didSet {
             guard let deviceTokenString = deviceTokenString, let fcmTokenString = fcmTokenString else { return }
@@ -106,20 +106,8 @@ extension AppDelegate {
             }
         }
         
-        guard let aps = userInfo["aps"] as? [AnyHashable : Any] else { return }
-        
-        guard let contentAvailableStr = aps["content-available"] as? String else { return }
-        print("\(#function), content-available string value:\(contentAvailableStr) [PushManager]")
-        
-        guard let contentAvailable = Int(contentAvailableStr) else { return }
-        print("\(#function), content-available int value:\(contentAvailable) [PushManager]")
-        
-        guard contentAvailable > 0 else { return }
-            
-        guard let title = userInfo["title"] as? String else { return }
-        print("\(#function), title:\(title) [PushManager]")
-        
-        messageService.storeModel(MessageModel(text: title, timeInterval: Date().timeIntervalSince1970))
+        let payloadParser = PayloadParser(userInfo: userInfo)
+        messageService.storeModel(MessageModel(text: payloadParser.payload.title, timeInterval: Date().timeIntervalSince1970))
         
         if application.applicationState != .active {
             if backgroundTaskIdentifier != .invalid {
@@ -148,6 +136,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         defer {
             viewController.reloadData()
         }
+        let parser = PayloadParser(content: notification.request.content, countMessagesInStorage: messageService.obtainModels().count)
+        messageService.storeModel(MessageModel(text: parser.payload.title, timeInterval: Date().timeIntervalSince1970))
         completionHandler([.alert, .sound, .badge])
     }
     func userNotificationCenter(
